@@ -67,7 +67,18 @@ app.put("/repositories/:id", (req, res) => {
 });
 
 app.delete("/repositories/:id", (req, res) => {
-  // TODO
+  const { id } = req.params
+
+  const repositoryIndex = repositories.findIndex(repository => repository.id === id);
+
+  if(repositoryIndex < 0) {
+    return res.status(400).json({ error: 'Repository noy found!'});
+  }
+
+  repositories.splice(repositoryIndex, 1);
+
+  return res.status(204).send();
+
 });
 
 app.post("/repositories/:id/like", (req, res) => {

@@ -56,9 +56,10 @@ app.put("/repositories/:id", (req, res) => {
 
   const repository = {
     id,
-    title,
-    url,
-    techs
+    title: title ? title : repositories[repositoryIndex].title,
+    url: url ? url : repositories[repositoryIndex].url,
+    techs: techs ? techs : repositories[repositoryIndex].techs,
+    likes: repositories[repositoryIndex].likes
   }
 
   repositories[repositoryIndex] = repository;
@@ -91,16 +92,16 @@ app.post("/repositories/:id/like", (req, res) => {
   }
 
   const repository = {
-    id: repositories[repositoryIndex].id,
+    id,
     title: repositories[repositoryIndex].title,
     url: repositories[repositoryIndex].url,
     techs: repositories[repositoryIndex].techs,
-    likes: repositories[repositoryIndex].likes =+ 1
-  };
+    likes: repositories[repositoryIndex].likes + 1
+  }
 
   repositories[repositoryIndex] = repository;
 
-  return res.status(204).send();
+  return res.json(repository);
 
 });
 
